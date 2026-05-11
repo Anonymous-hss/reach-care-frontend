@@ -16,6 +16,7 @@ import PulseActionPage from './pages/Pulse/PulseActionPage';
 import Compass from './pages/Compass';
 import Ask from './pages/Ask';
 import Studio from './pages/Studio';
+import Report from './pages/Report';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 function ScrollToTop() {
@@ -41,6 +42,10 @@ export default function App() {
             element={<PulseActionPage pageType="take-action" />}
           />
           <Route
+            path="/pulse/signals/:signalId/brief"
+            element={<PulseActionPage pageType="export-brief" />}
+          />
+          <Route
             path="/pulse/signals/:signalId/model-impact"
             element={<PulseActionPage pageType="model-impact" />}
           />
@@ -51,6 +56,7 @@ export default function App() {
           <Route path="/compass" element={<Compass />} />
           <Route path="/ask" element={<Ask />} />
           <Route path="/studio" element={<Studio />} />
+          <Route path="/reports" element={<Report />} />
           
           {/* Workspace & System placeholders */}
           <Route
