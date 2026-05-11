@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   LayoutDashboard,
   Activity,
@@ -49,13 +49,13 @@ const navSections = [
 export default function Sidebar() {
   return (
     <aside className="sidebar">
-      {/* Logo Section */}
-      <div className="sidebar__logo">
+      {/* Logo — clicking navigates to landing page */}
+      <Link to="/" className="sidebar__logo">
         <div className="sidebar__logo-image-container">
           <img src={reachCareLogo} alt="Rc" className="sidebar__logo-image" />
         </div>
         <span className="sidebar__logo-text">ReachCare</span>
-      </div>
+      </Link>
 
       <div className="sidebar__divider" style={{ margin: '0 16px var(--space-lg)' }} />
 
