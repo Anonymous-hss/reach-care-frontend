@@ -83,17 +83,37 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  color: #00447c;
+  color: var(--color-accent-blue);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: 1;
   white-space: nowrap;
   transition: color var(--transition-fast), transform var(--transition-fast);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .signal-item__action:hover {
-  color: #0c447c;
   transform: translateX(2px);
+  opacity: 0.8;
+}
+
+.signal-item__action--critical {
+  color: #A32D2D;
+}
+
+.signal-item__action--emerging {
+  color: #D97706;
+}
+
+.signal-item__action--opportunity {
+  color: #185FA5;
+}
+
+.signal-item__action--update {
+  color: var(--color-signal-update);
 }
 
 @media (max-width: 820px) {

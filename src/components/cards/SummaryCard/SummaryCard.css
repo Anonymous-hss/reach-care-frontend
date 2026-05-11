@@ -112,9 +112,14 @@
   flex-shrink: 0;
 }
 
-.summary-card__list-dot--critical { background: var(--color-signal-critical); }
-.summary-card__list-dot--emerging { background: var(--color-signal-emerging); }
-.summary-card__list-dot--info { background: var(--color-accent-blue); }
+.summary-card__list-dot--critical,
+.summary-card__list-dot--high { background: var(--color-signal-critical); }
+
+.summary-card__list-dot--emerging,
+.summary-card__list-dot--medium { background: var(--color-signal-emerging); }
+
+.summary-card__list-dot--info,
+.summary-card__list-dot--low { background: var(--color-accent-blue); }
 
 .summary-card__list-icon {
   color: var(--color-text-muted);

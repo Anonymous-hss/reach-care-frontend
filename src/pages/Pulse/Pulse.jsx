@@ -1,67 +1,98 @@
-import { useMemo, useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, Bell, Search } from 'lucide-react';
+import { Activity, Bell, Search, ChevronDown } from 'lucide-react';
 import { FilterPill, MetricTile, SignalItem } from '../../components/pulse';
-import { pulseData } from '../../data/pulseData';
+import { fetchPulseData } from '../../services/api';
 import './Pulse.css';
-
-function signalMatchesFilter(signal, filter) {
-  if (!filter || filter.id === 'all') return true;
-  if (filter.status) return signal.status === filter.status;
-  if (filter.topic) return signal.topic === filter.topic;
-  if (filter.region) return signal.region === filter.region;
-  return true;
-}
-
-function signalMatchesSearch(signal, searchTerm) {
-  const query = searchTerm.trim().toLowerCase();
-  if (!query) return true;
-
-  return [
-    signal.status,
-    signal.topic,
-    signal.region,
-    signal.title,
-    signal.summary,
-    ...signal.sources,
-  ]
-    .join(' ')
-    .toLowerCase()
-    .includes(query);
-}
 
 export default function Pulse() {
   const navigate = useNavigate();
-  const [activeFilterId, setActiveFilterId] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [data, setData] = useState(null);
+  const [pulses, setPulses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState(null);
+  const [offset, setOffset] = useState(0);
+  const LIMIT = 20;
 
-  const activeFilter = pulseData.filters.find((filter) => filter.id === activeFilterId);
+  const [activeFilters, setActiveFilters] = useState({
+    country: 'all',
+    category: 'all',
+    severity: 'all'
+  });
 
-  const visibleSignals = useMemo(
-    () =>
-      pulseData.signals.filter(
-        (signal) =>
-          signalMatchesFilter(signal, activeFilter) &&
-          signalMatchesSearch(signal, searchTerm),
-      ),
-    [activeFilter, searchTerm],
-  );
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        setLoading(true);
+        const result = await fetchPulseData(LIMIT, 0);
+        setData(result);
+        setPulses(result.pulses);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load pulse data.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadInitialData();
+  }, []);
+
+  const loadMore = async () => {
+    if (loadingMore) return;
+    try {
+      setLoadingMore(true);
+      const nextOffset = offset + LIMIT;
+      const result = await fetchPulseData(LIMIT, nextOffset);
+      setPulses(prev => [...prev, ...result.pulses]);
+      setOffset(nextOffset);
+    } catch (err) {
+      console.error('Failed to load more pulses:', err);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const handleSignalAction = (signal) => {
-    if (signal.action?.path) {
-      navigate(signal.action.path);
-      return;
-    }
-
-    window.dispatchEvent(
-      new CustomEvent('pulse:signal-action', {
-        detail: {
-          signalId: signal.id,
-          actionId: signal.action?.id,
-        },
-      }),
-    );
+    // Navigate to action page with signal ID
+    navigate(`/pulse/signals/${signal.signal_id}/action`);
   };
+
+  const filteredPulses = useMemo(() => {
+    return pulses.filter(p => {
+      const matchesSearch = !searchTerm ||
+        p.headline.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.country.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCountry = activeFilters.country === 'all' || p.country === activeFilters.country;
+      const matchesCategory = activeFilters.category === 'all' || p.category === activeFilters.category;
+      const matchesSeverity = activeFilters.severity === 'all' || p.severity === activeFilters.severity;
+
+      return matchesSearch && matchesCountry && matchesCategory && matchesSeverity;
+    });
+  }, [pulses, searchTerm, activeFilters]);
+
+  if (loading) {
+    return <div className="pulse-page pulse-page--loading">Loading pulse feed...</div>;
+  }
+
+  if (error) {
+    return <div className="pulse-page pulse-page--error">{error}</div>;
+  }
+
+  const { kpis, filters_available, pagination } = data;
+
+  const metrics = [
+    { id: 'new', label: 'New signals today', value: kpis.new_signals_today.formatted, tone: kpis.new_signals_today.delta_direction === 'up' ? 'positive' : 'neutral' },
+    { id: 'critical', label: 'Critical alerts', value: kpis.critical_alerts.formatted, tone: 'critical' },
+    { id: 'monitored', label: 'Sources monitored', value: kpis.sources_monitored.formatted, tone: 'neutral' },
+    { id: 'ingested', label: 'Auto-ingested', value: kpis.reports_auto_ingested.formatted, tone: 'neutral' },
+  ];
+
+  const hasMore = pulses.length < pagination.total;
 
   return (
     <div className="pulse-page">
@@ -72,13 +103,13 @@ export default function Pulse() {
           </div>
           <div>
             <div className="pulse-page__title-row">
-              <h1 className="pulse-page__title">{pulseData.header.title}</h1>
+              <h1 className="pulse-page__title">Pulse</h1>
               <span className="pulse-page__agent-status">
                 <span className="pulse-page__status-dot" />
-                {pulseData.header.agentStatus}
+                Agents Active
               </span>
             </div>
-            <p className="pulse-page__subtitle">{pulseData.header.subtitle}</p>
+            <p className="pulse-page__subtitle">Real-time health strategy signals and equity alerts</p>
           </div>
         </div>
 
@@ -88,31 +119,35 @@ export default function Pulse() {
             <input
               type="search"
               value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search"
-              aria-label="Search pulse signals"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search signals..."
             />
           </label>
-          <button type="button" className="pulse-page__notification" aria-label="Notifications">
+          {/* <button type="button" className="pulse-page__notification">
             <Bell size={17} />
-          </button>
+          </button> */}
         </div>
       </header>
 
-      <section className="pulse-board" aria-labelledby="pulse-feed-title">
-        <div className="pulse-board__filters" aria-label="Signal filters">
-          {pulseData.filters.map((filter) => (
+      <section className="pulse-board">
+        <div className="pulse-board__filters">
+          <FilterPill
+            label="All Regions"
+            isActive={activeFilters.country === 'all'}
+            onClick={() => setActiveFilters(prev => ({ ...prev, country: 'all' }))}
+          />
+          {filters_available.countries.map(c => (
             <FilterPill
-              key={filter.id}
-              label={filter.label}
-              isActive={filter.id === activeFilterId}
-              onClick={() => setActiveFilterId(filter.id)}
+              key={c}
+              label={c}
+              isActive={activeFilters.country === c}
+              onClick={() => setActiveFilters(prev => ({ ...prev, country: c }))}
             />
           ))}
         </div>
 
         <div className="pulse-board__metrics">
-          {pulseData.metrics.map((metric) => (
+          {metrics.map((metric) => (
             <MetricTile
               key={metric.id}
               label={metric.label}
@@ -123,32 +158,49 @@ export default function Pulse() {
         </div>
 
         <div className="pulse-board__feed-header">
-          <h2 id="pulse-feed-title" className="pulse-board__feed-title">
-            {pulseData.feedTitle}
+          <h2 className="pulse-board__feed-title">
+            Live Signal Feed ({pagination.total})
           </h2>
-          <span className="pulse-board__sort-label">{pulseData.sortLabel}</span>
+          <span className="pulse-board__sort-label">Sorted by Recency</span>
         </div>
 
         <div className="pulse-board__signals">
-          {visibleSignals.map((signal) => (
+          {filteredPulses.map((p) => (
             <SignalItem
-              key={signal.id}
-              signal={signal}
-              onAction={handleSignalAction}
+              key={p.signal_id}
+              signal={{
+                id: p.signal_id,
+                status: p.category,
+                topic: p.program_type.replace('_', ' '),
+                region: `${p.state}, ${p.country}`,
+                timeAgo: p.time_ago,
+                relevance: p.severity.toUpperCase(),
+                title: p.headline,
+                summary: p.description,
+                sources: p.source_tags.map(s => s.label),
+                action: { label: 'Take Action', id: 'action' }
+              }}
+              onAction={() => handleSignalAction(p)}
             />
           ))}
 
-          {visibleSignals.length === 0 && (
-            <div className="pulse-board__empty">
-              No signals match this filter yet.
+          {filteredPulses.length === 0 && (
+            <div className="pulse-board__empty">No signals found matching your search.</div>
+          )}
+
+          {hasMore && (
+            <div className="pulse-board__load-more">
+              <button
+                className="pulse-board__load-more-btn"
+                onClick={loadMore}
+                disabled={loadingMore}
+              >
+                {loadingMore ? 'Loading...' : 'View more signals'}
+                {!loadingMore && <ChevronDown size={16} />}
+              </button>
             </div>
           )}
         </div>
-
-        <footer className="pulse-board__archive">
-          <span>{pulseData.archiveSummary}</span>
-          <button type="button">{pulseData.archiveAction}</button>
-        </footer>
       </section>
     </div>
   );

@@ -8,9 +8,10 @@ const badgeLabels = {
 };
 
 export default function SignalBadge({ status }) {
+  const normalizedStatus = status?.toLowerCase();
   return (
-    <span className={`signal-badge signal-badge--${status}`}>
-      {badgeLabels[status] || status}
+    <span className={`signal-badge signal-badge--${normalizedStatus}`}>
+      {badgeLabels[normalizedStatus] || status}
     </span>
   );
 }

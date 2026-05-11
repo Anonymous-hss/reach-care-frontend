@@ -196,36 +196,48 @@
   font-size: var(--font-size-base);
 }
 
-.pulse-board__archive {
-  min-height: 55px;
-  margin-top: var(--space-md);
-  padding: 12px 14px;
-  border-radius: var(--radius-lg);
-  background: #f6f7f9;
-  color: var(--color-text-secondary);
+.pulse-board__load-more {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--color-border-section);
+  margin-top: var(--space-xl);
+}
+
+.pulse-board__load-more-btn {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-lg);
-  font-size: var(--font-size-sm);
-}
-
-.pulse-board__archive button {
-  min-height: 34px;
-  padding: 0 var(--space-lg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-3xl);
   background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
-.pulse-board__archive button:hover {
-  border-color: #cfd5df;
-  background: #fbfbfb;
+.pulse-board__load-more-btn:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+  background: var(--color-bg-hover);
+  transform: translateY(-1px);
+}
+
+.pulse-board__load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pulse-page--loading,
+.pulse-page--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
 }
 
 @media (max-width: 1080px) {
