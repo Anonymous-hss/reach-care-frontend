@@ -36,7 +36,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route element={<PageLayout />}>
-          <Route path="/dashboard" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/pulse" element={<Pulse />} />
           <Route
             path="/pulse/signals/:signalId/action"
@@ -58,7 +58,7 @@ export default function App() {
           <Route path="/ask" element={<Ask />} />
           <Route path="/studio" element={<Studio />} />
           <Route path="/reports" element={<Report />} />
-          
+
           {/* Workspace & System placeholders */}
           <Route
             path="/scenarios"
