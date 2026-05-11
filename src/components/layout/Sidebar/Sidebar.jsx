@@ -57,11 +57,9 @@ export default function Sidebar() {
 
       <div className="sidebar__divider" style={{ margin: '0 16px var(--space-lg)' }} />
 
-      {/* Navigation */}
       <nav className="sidebar__nav">
-        {/* Home Item */}
         <NavLink
-          to="/"
+          to="/dashboard"
           className={({ isActive }) =>
             `sidebar__item ${isActive ? 'sidebar__item--active' : ''}`
           }
