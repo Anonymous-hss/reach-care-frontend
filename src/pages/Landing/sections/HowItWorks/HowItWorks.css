@@ -1,0 +1,205 @@
+/* ── Google Fonts (add to index.html):
+   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+*/
+
+/* ════════════════════════════════════════════════
+   SECTION
+   ════════════════════════════════════════════════ */
+.hiw-section {
+  width: 100%;
+  background: #f0efed;          /* same warm grey as the design */
+  padding: 80px 24px 100px;
+  font-family: 'Manrope', sans-serif;
+}
+
+.hiw-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+
+/* ════════════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════════════ */
+.hiw-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.hiw-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c8201a;
+}
+
+.hiw-heading {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 2.9rem);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════
+   STEPS ROW
+   ════════════════════════════════════════════════ */
+.hiw-steps {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Single step ── */
+.hiw-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0 12px;
+  /* subtle fade-up on mount */
+  opacity: 0;
+  animation: stepIn 0.5s ease forwards;
+}
+
+.hiw-step:nth-child(1)  { animation-delay: 0.05s; }
+.hiw-step:nth-child(2)  { animation-delay: 0.15s; }
+.hiw-step:nth-child(3)  { animation-delay: 0.25s; }
+.hiw-step:nth-child(4)  { animation-delay: 0.35s; }
+.hiw-step:nth-child(5)  { animation-delay: 0.45s; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ── Icon box ── */
+.hiw-icon-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e0e0dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Active step icon */
+.hiw-step--active .hiw-icon-box {
+  border-color: #EB1700;
+  border-width: 2px;
+  color: #EB1700;
+  box-shadow: 0 4px 18px rgba(200, 32, 26, 0.15);
+}
+
+/* Hover for inactive steps */
+.hiw-step:not(.hiw-step--active):hover .hiw-icon-box {
+  border-color: #bbb;
+  color: #222;
+}
+
+/* ── Horizontal connector line (sits at icon vertical center) ── */
+.hiw-connector {
+  position: absolute;
+  top: 32px;                    /* half of icon-box height (64/2) */
+  left: calc(50% + 36px);       /* right edge of icon box */
+  width: calc(100% - 72px);     /* span to next icon box */
+  height: 1px;
+  background: #d4d4d0;
+  z-index: 0;
+}
+
+/* ── Step label ── */
+.hiw-step-label {
+  margin: 18px 0 8px;
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.3;
+  transition: color 0.2s;
+}
+
+.hiw-step--active .hiw-step-label {
+  color: #EB1700;
+}
+
+.hiw-step-num {
+  font-weight: 700;
+}
+
+/* ── Step description ── */
+.hiw-step-desc {
+  font-size: 0.82rem;
+  color: #888;
+  line-height: 1.6;
+  max-width: 160px;
+  margin: 0 auto;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+
+/* Tablet: 3 columns, wrap last 2 below */
+@media (max-width: 860px) {
+  .hiw-steps {
+    flex-wrap: wrap;
+    gap: 40px 0;
+  }
+
+  .hiw-step {
+    flex: 0 0 33.333%;
+  }
+
+  /* hide connectors on tablet – they break layout */
+  .hiw-connector {
+    display: none;
+  }
+}
+
+/* Mobile: single column stack */
+@media (max-width: 540px) {
+  .hiw-section {
+    padding: 60px 20px 72px;
+  }
+
+  .hiw-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .hiw-step {
+    flex: none;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .hiw-connector {
+    display: none;
+  }
+
+  .hiw-heading {
+    font-size: 2rem;
+  }
+}

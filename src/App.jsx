@@ -17,6 +17,7 @@ import Compass from './pages/Compass';
 import Ask from './pages/Ask';
 import Studio from './pages/Studio';
 import Report from './pages/Report';
+import Signup from './pages/SignUp';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 function ScrollToTop() {
@@ -35,6 +36,7 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<Signup />} />
         <Route element={<PageLayout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/pulse" element={<Pulse />} />
@@ -58,6 +60,8 @@ export default function App() {
           <Route path="/ask" element={<Ask />} />
           <Route path="/studio" element={<Studio />} />
           <Route path="/reports" element={<Report />} />
+
+        
           
           {/* Workspace & System placeholders */}
           <Route

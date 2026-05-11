@@ -1,0 +1,207 @@
+/* Google Fonts – load in your index.html or _app:
+   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+*/
+
+/* ── Reset / Base ───────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Root layout ────────────────────────────────── */
+.signup {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Manrope', sans-serif;
+}
+
+/* ════════════════════════════════════════════════
+   LEFT PANEL  –  ~48 % width, light grey bg
+   ════════════════════════════════════════════════ */
+.signup__left {
+  flex: 0 0 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0efed;          /* matches design – warm off-white */
+  padding: 60px 64px;
+}
+
+.signup__left-inner {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Title  –  large serif, matches "See Your Workspace" weight */
+.signup__title {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 500;
+  color: #111;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+/* Subtitle */
+.signup__subtitle {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.55;
+  margin-bottom: 18px;   /* extra gap before button, like in the design */
+}
+
+/* SSO Button  –  full width, bold red */
+.signup__sso-btn {
+  display: block;
+  width: 100%;
+  padding: 15px 24px;
+  background: #EB1700;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signup__sso-btn:hover {
+  background: #a81a15;
+  box-shadow: 0 6px 20px rgba(200, 32, 26, 0.35);
+}
+
+.signup__sso-btn:active {
+  transform: translateY(1px);
+}
+
+/* ════════════════════════════════════════════════
+   RIGHT PANEL  –  ~52 % width, photo + overlay
+   ════════════════════════════════════════════════ */
+.signup__right {
+  flex: 0 0 52%;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Photo fills the panel */
+.signup__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Dark overlay – matches the muted dark tint in the design */
+.signup__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.62);
+  z-index: 1;
+}
+
+/* Feature blocks sit above overlay */
+.signup__features {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 52px;
+  padding: 60px 56px;
+}
+
+/* ── Single feature row ── */
+.signup__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  opacity: 0;
+  animation: fadeUp 0.55s ease forwards;
+}
+
+.signup__feature:nth-child(1) { animation-delay: 0.15s; }
+.signup__feature:nth-child(2) { animation-delay: 0.30s; }
+.signup__feature:nth-child(3) { animation-delay: 0.45s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Icon container */
+.signup__feature-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.signup__feature-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* Description */
+.signup__feature-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.65;
+  max-width: 340px;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .signup {
+    flex-direction: column;
+  }
+
+  .signup__right {
+    flex: none;
+    order: -1;          /* photo panel on top on mobile */
+    min-height: 400px;
+  }
+
+  .signup__left {
+    flex: none;
+    padding: 48px 32px;
+  }
+
+  .signup__features {
+    gap: 32px;
+    padding: 40px 32px;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup__left {
+    padding: 40px 24px;
+  }
+
+  .signup__features {
+    padding: 32px 24px;
+  }
+
+  .signup__title {
+    font-size: 1.9rem;
+  }
+}

@@ -1,0 +1,146 @@
+/* ── Requires Manrope — add to index.html if not already present:
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+*/
+
+.cta-section {
+  --red:    #EB1700;
+  --dark:   #111111;
+  --mid:    #555555;
+  --border: #E0E0DC;
+}
+
+/* ════════════════════════════════════════════════
+   SECTION
+   ════════════════════════════════════════════════ */
+.cta-section {
+  width: 100%;
+  background: #ffffff;          /* same warm grey used across sections */
+  padding: 100px 24px 112px;
+  font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ════════════════════════════════════════════════
+   INNER CONTAINER  –  centred, max width
+   ════════════════════════════════════════════════ */
+.cta-container {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════
+   HEADING  –  large, heavy, dark underline
+   ════════════════════════════════════════════════ */
+.cta-heading {
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+
+  /* underline decoration matching the design */
+  /* text-decoration: underline; */
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+/* ════════════════════════════════════════════════
+   SUBTEXT
+   ════════════════════════════════════════════════ */
+.cta-subtext {
+  font-size: 0.97rem;
+  font-weight: 400;
+  color: var(--mid);
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════
+   BUTTONS
+   ════════════════════════════════════════════════ */
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease,
+              border-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+  min-width: 180px;
+}
+
+.cta-btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary – red fill */
+.cta-btn--primary {
+  background: var(--red);
+  color: #ffffff;
+  border: 2px solid var(--red);
+}
+
+.cta-btn--primary:hover {
+  background: #c91200;
+  border-color: #c91200;
+  box-shadow: 0 6px 22px rgba(235, 23, 0, 0.32);
+}
+
+/* Outline – white fill, dark border */
+.cta-btn--outline {
+  background: #ffffff;
+  color: var(--dark);
+  border: 1.5px solid var(--border);
+}
+
+.cta-btn--outline:hover {
+  border-color: #aaa;
+  background: #f5f5f3;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .cta-section {
+    padding: 72px 20px 80px;
+  }
+
+  .cta-heading {
+    font-size: 2rem;
+    text-underline-offset: 5px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .cta-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

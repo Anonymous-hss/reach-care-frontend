@@ -1,0 +1,167 @@
+/* ── Google Fonts (add to index.html / _app):
+   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+*/
+
+/* ════════════════════════════════════════════════
+   SECTION WRAPPER
+   ════════════════════════════════════════════════ */
+.ct-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 80px 24px 100px;
+  font-family: 'Manrope', sans-serif;
+}
+
+.ct-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 52px;
+}
+
+/* ════════════════════════════════════════════════
+   HEADING
+   ════════════════════════════════════════════════ */
+.ct-heading {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-align: center;
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════
+   TABLE CARD
+   ════════════════════════════════════════════════ */
+.ct-card {
+  width: 100%;
+  border: 1px solid #e8e8e5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafaf8;
+}
+
+/* ════════════════════════════════════════════════
+   ROWS
+   ════════════════════════════════════════════════ */
+.ct-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid #e8e8e5;
+}
+
+.ct-row:last-child {
+  border-bottom: none;
+}
+
+/* Header row */
+.ct-row--header {
+  background: #fafaf8;
+}
+
+/* Data rows */
+.ct-row--data {
+  background: #ffffff;
+  transition: background 0.18s ease;
+}
+
+.ct-row--data:hover {
+  background: #fdf5f5;
+}
+
+/* ════════════════════════════════════════════════
+   CELLS – shared
+   ════════════════════════════════════════════════ */
+.ct-cell {
+  padding: 22px 32px;
+  display: flex;
+  align-items: center;
+}
+
+/* Column borders */
+.ct-col-param {
+  border-right: 1px solid #e8e8e5;
+}
+
+.ct-col-trad {
+  border-right: 1px solid #e8e8e5;
+}
+
+/* ── Header labels ── */
+.ct-row--header .ct-cell {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #EB1700;           /* red column headers */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* ── Parameter column (bold, dark) ── */
+.ct-param-text {
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.01em;
+}
+
+/* ── Traditional column (muted grey) ── */
+.ct-trad-text {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #999;
+}
+
+/* ── Care Compass column (bold, dark) ── */
+.ct-care-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .ct-section {
+    padding: 60px 16px 72px;
+  }
+
+  .ct-card {
+    border-radius: 8px;
+  }
+
+  /* Stack to 2 cols on mobile: param / care-compass only */
+  .ct-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Hide traditional approach column on very small screens */
+  .ct-col-trad {
+    display: none;
+  }
+
+  .ct-col-param {
+    border-right: 1px solid #e8e8e5;
+  }
+
+  .ct-cell {
+    padding: 18px 20px;
+  }
+
+  .ct-heading {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .ct-cell {
+    padding: 20px 24px;
+  }
+}

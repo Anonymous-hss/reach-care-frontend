@@ -1,0 +1,245 @@
+/* ── Add to index.html / _app:
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+*/
+
+.cs-section {
+  --red:      #EB1700;
+  --dark:     #111111;
+  --mid:      #555555;
+  --muted:    #999999;
+  --border:   #E8E8E5;
+  --card-bg:  #F4F4F2;
+}
+
+/* ════════════════════════════════════════════════
+   SECTION
+   ════════════════════════════════════════════════ */
+.cs-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 72px 24px 88px;
+  font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ════════════════════════════════════════════════
+   CARD  –  side-by-side, NO stretch on map side
+   align-items: stretch removed intentionally
+   ════════════════════════════════════════════════ */
+.cs-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  /* KEY: start so map column is only as tall as its image */
+  align-items: start;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+}
+
+/* ════════════════════════════════════════════════
+   LEFT — MAP
+   Image is block, full width, natural height — NEVER cropped
+   ════════════════════════════════════════════════ */
+.cs-map {
+  background: #fce9e6;
+  /* no height, no min-height, no overflow:hidden */
+  display: block;
+}
+
+.cs-map-img {
+  display: block;
+  width: 100%;
+  height: auto;        /* ← natural aspect ratio, zero cropping */
+  object-fit: unset;   /* ← no cover/contain tricks */
+}
+
+/* ════════════════════════════════════════════════
+   RIGHT — PANEL
+   ════════════════════════════════════════════════ */
+.cs-panel {
+  padding: 48px 52px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  justify-content: center;
+  /* panel scrolls independently if it ever overflows */
+  min-height: 100%;
+}
+
+/* ── Header ── */
+.cs-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.cs-title {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+/* ── Metrics ── */
+.cs-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cs-metric-label {
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cs-metric-value {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.cs-metric-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cs-metric-fill {
+  height: 100%;
+  background: var(--red);
+  border-radius: 2px;
+  transition: width 0.8s ease;
+}
+
+/* ── AI Recommendation card ── */
+.cs-rec-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-rec-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-rec-icon { flex-shrink: 0; color: var(--dark); }
+
+.cs-rec-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.cs-rec-desc {
+  font-size: 0.84rem;
+  color: var(--mid);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Action buttons ── */
+.cs-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cs-btn {
+  padding: 14px 28px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 7px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.cs-btn:active { transform: translateY(1px); }
+
+.cs-btn--primary {
+  background: var(--red);
+  color: #fff;
+}
+
+.cs-btn--primary:hover {
+  background: #c91200;
+  box-shadow: 0 4px 18px rgba(235, 23, 0, 0.30);
+}
+
+.cs-btn--outline {
+  background: transparent;
+  color: var(--dark);
+  border: 1.5px solid var(--border);
+}
+
+.cs-btn--outline:hover {
+  border-color: #aaa;
+  background: #f5f5f3;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .cs-container {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-panel {
+    padding: 36px 36px;
+  }
+}
+
+@media (max-width: 540px) {
+  .cs-section {
+    padding: 52px 16px 64px;
+  }
+
+  .cs-panel {
+    padding: 28px 24px;
+    gap: 22px;
+  }
+
+  .cs-title { font-size: 2rem; }
+
+  .cs-btn {
+    flex: 1;
+    text-align: center;
+  }
+}
