@@ -1,3 +1,301 @@
-.studio-page {
+/* ================================================================
+   Studio Page Styles
+   ================================================================ */
+
+.studio {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--space-2xl);
+  max-width: 100%;
   animation: fadeIn var(--transition-normal) forwards;
+}
+
+/* ── Header ── */
+.studio__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-2xl);
+}
+
+.studio__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.studio__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.studio__header-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.studio__btn {
+  padding: 6px 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: white;
+  border: 1.5px solid #EB1700;
+  color: #EB1700;
+  transition: all var(--transition-fast);
+}
+
+.studio__btn:hover {
+  background: #EB1700;
+  color: white;
+}
+
+/* ── Main Layout ── */
+.studio__main {
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Main modeling area + side chat */
+  gap: var(--space-2xl);
+  flex: 1;
+}
+
+/* ── Left Column: Modeling ── */
+.studio__modeling {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.studio__card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+}
+
+/* Sliders Section */
+.studio__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.studio__section-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.studio__drag-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Allocation Row */
+.studio__allocation-row {
+  margin-bottom: var(--space-xl);
+}
+
+.studio__allocation-row:last-child {
+  margin-bottom: 0;
+}
+
+.studio__allocation-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-base);
+}
+
+.studio__allocation-label {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.studio__allocation-value {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/* Custom Range Input */
+.studio__slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  background: #EAEAEA;
+  border-radius: var(--radius-pill);
+  outline: none;
+  cursor: pointer;
+}
+
+.studio__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #EB1700;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Workforce Mix */
+.studio__workforce-desc {
+  margin-top: var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Outcomes Grid */
+.studio__outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.studio__outcome-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.studio__outcome-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.studio__outcome-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/* Observation Banner */
+.studio__observation {
+  background: #EBF5FF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-xl);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-blue);
+  line-height: var(--line-height-normal);
+}
+
+.studio__observation strong {
+  font-weight: var(--font-weight-bold);
+  margin-right: var(--space-sm);
+}
+
+/* ── Right Column: Studio Chat ── */
+.studio__chat {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  height: 100%; /* Fill the container height */
+  overflow: hidden;
+}
+
+.studio__chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-xl) var(--space-2xl);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.studio__chat-title {
+  color: #EB1700;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.studio__chat-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.studio__chat-content {
+  flex: 1;
+  padding: var(--space-xl) var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.studio__chat-welcome {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Suggestions area */
+.studio__chat-suggestions-area {
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.studio__chat-suggestion-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.studio__chat-suggestion-btn {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill); /* Pill shape for suggestions */
+  padding: var(--space-sm) var(--space-xl);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.studio__chat-suggestion-btn:hover {
+  background: var(--color-bg);
+  border-color: var(--color-text-muted);
+}
+
+/* Input area at bottom */
+.studio__chat-footer {
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.studio__chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.studio__chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+}
+
+.studio__chat-send-btn {
+  background: #1A1A19;
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
 }

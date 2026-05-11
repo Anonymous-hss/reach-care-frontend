@@ -1,3 +1,389 @@
-.compass-page {
+/* ================================================================
+   Compass Page Styles
+   ================================================================ */
+
+.compass {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--space-2xl);
+  max-width: 100%;
   animation: fadeIn var(--transition-normal) forwards;
+}
+
+/* ── Header ── */
+.compass__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-2xl);
+}
+
+.compass__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.compass__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.compass__header-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.compass__btn {
+  padding: 6px 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: white;
+  border: 1.5px solid #EB1700;
+  color: #EB1700;
+  transition: all var(--transition-fast);
+}
+
+.compass__btn:hover {
+  background: #EB1700;
+  color: white;
+}
+
+/* ── Main Layout ── */
+.compass__main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-2xl);
+  flex: 1;
+}
+
+/* ── Left Column ── */
+.compass__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* Question Card */
+.compass__question-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl) var(--space-2xl);
+}
+
+.compass__question-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: #EB1700;
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+
+.compass__question-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* National Stats */
+.compass__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.compass__stat-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+.compass__stat-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: #EB1700;
+  margin-bottom: var(--space-sm);
+}
+
+.compass__stat-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.compass__stat-subtext {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Ranked Allocation List */
+.compass__allocation-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.compass__allocation-section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.compass__allocation-section-formula {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.compass__allocation-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.compass__allocation-item {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+.compass__allocation-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.compass__allocation-rank {
+  width: 24px;
+  height: 24px;
+  background: #EBF5FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-blue);
+}
+
+.compass__allocation-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.compass__allocation-tag {
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  background: #FCEBEB;
+  color: #EB1700;
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-medium);
+}
+
+.compass__allocation-amount {
+  margin-left: auto;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: #EB1700;
+}
+
+/* Progress Bar */
+.compass__progress-container {
+  height: 6px;
+  background: #EAEAEA;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-lg);
+  overflow: hidden;
+}
+
+.compass__progress-fill {
+  height: 100%;
+  background: #27AE60; /* Brand green for impact */
+  border-radius: var(--radius-pill);
+}
+
+/* Allocation Grid Info */
+.compass__allocation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+}
+
+.compass__grid-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compass__grid-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.compass__grid-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.compass__grid-value--link {
+  color: var(--color-accent-blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Explanation Banner */
+.compass__explanation {
+  background: #EBF5FF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-blue);
+  line-height: var(--line-height-relaxed);
+}
+
+.compass__explanation-text {
+  display: block;
+}
+
+.compass__explanation-text::first-line {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Footer Actions */
+.compass__footer {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.compass__footer-btn {
+  padding: 8px 20px;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.compass__footer-btn:hover {
+  background: var(--color-bg);
+  border-color: var(--color-text-muted);
+}
+
+/* ── Right Column: Compass Chat (Visually consistent with Studio) ── */
+.compass__chat {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  height: 100%;
+  overflow: hidden;
+}
+
+.compass__chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-xl) var(--space-2xl);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.compass__chat-title {
+  color: #EB1700;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.compass__chat-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.compass__chat-content {
+  flex: 1;
+  padding: var(--space-xl) var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.compass__chat-welcome {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Suggestions area */
+.compass__chat-suggestions-area {
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.compass__chat-suggestion-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.compass__chat-suggestion-btn {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill); /* Consistent pill shape */
+  padding: var(--space-sm) var(--space-xl);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.compass__chat-suggestion-btn:hover {
+  background: var(--color-bg);
+  border-color: var(--color-text-muted);
+}
+
+/* Input area at bottom */
+.compass__chat-footer {
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.compass__chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.compass__chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+}
+
+.compass__chat-send-btn {
+  background: #1A1A19;
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
 }

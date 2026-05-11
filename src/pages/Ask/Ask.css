@@ -1,3 +1,146 @@
-.ask-page {
+/* ================================================================
+   Ask Chatbot — New Edge-to-Edge Design
+   ================================================================ */
+
+.ask-new {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--space-2xl);
+  max-width: 100%;
   animation: fadeIn var(--transition-normal) forwards;
+}
+
+/* ── Header ── */
+.ask-new__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-2xl);
+}
+
+.ask-new__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.ask-new__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.ask-new__header-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.ask-new__btn {
+  padding: 6px 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: white;
+  border: 1.5px solid #EB1700;
+  color: #EB1700;
+  transition: all var(--transition-fast);
+}
+
+.ask-new__btn:hover {
+  background: #EB1700;
+  color: white;
+}
+
+/* ── Content ── */
+.ask-new__content {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5xl);
+  margin-bottom: var(--space-2xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.ask-new__welcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+/* ── Footer / Input ── */
+.ask-new__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.ask-new__input-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.ask-new__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.ask-new__input::placeholder {
+  color: #EB1700; /* Red placeholder as seen in design */
+  opacity: 0.6;
+}
+
+.ask-new__send-btn {
+  padding: 8px 24px;
+  background: #1A1A19;
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Suggestions ── */
+.ask-new__suggestions-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.ask-new__suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md) var(--space-xl);
+}
+
+.ask-new__suggestion-pill {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-xl);
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.ask-new__suggestion-pill:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
 }
