@@ -1,0 +1,201 @@
+/* ================================================================
+   Footer Component — ReachCare
+   Matches Figma: 11. Footer (1440 Fill × 366 Hug)
+   Background: #FAFAFA, Top border: 1px #F5E5E5
+   ================================================================ */
+
+.footer {
+  width: 100%;
+  background: #fafafa;
+  border-top: 1px solid #f5e5e5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ── Inner layout ─────────────────────────────────────────────── */
+.footer__inner {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 72px 120px 56px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+/* ── Brand column ─────────────────────────────────────────────── */
+.footer__brand-col {
+  max-width: 356px;
+  flex-shrink: 0;
+}
+
+.footer__brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.footer__brand span {
+  font-size: 24px;
+  font-weight: 800;
+  color: #171717;
+  letter-spacing: -0.5px;
+}
+
+.footer__brand small {
+  margin-top: 4px;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #eb1700;
+}
+
+.footer__tagline {
+  margin-top: 20px;
+  color: #737373;
+  font-size: 14px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* ── Link columns wrapper ─────────────────────────────────────── */
+.footer__links {
+  display: flex;
+  gap: 64px;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__col-heading {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: #eb1700;
+  margin-bottom: 20px;
+  line-height: 16px;
+}
+
+.footer__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__link {
+  font-size: 14px;
+  font-weight: 400;
+  color: #737373;
+  text-decoration: none;
+  line-height: 20px;
+  transition: color 160ms ease, transform 160ms ease;
+  display: inline-block;
+}
+
+.footer__link:hover {
+  color: #171717;
+  transform: translateX(2px);
+}
+
+/* ── Bottom bar ───────────────────────────────────────────────── */
+.footer__bottom {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 24px 120px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer__copyright {
+  font-size: 12px;
+  font-weight: 400;
+  color: #a3a3a3;
+  line-height: 16px;
+}
+
+.footer__offices {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__office {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: #eb1700;
+  position: relative;
+  transition: color 160ms ease;
+  cursor: default;
+}
+
+.footer__office:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d4d4d4;
+}
+
+.footer__office:hover {
+  color: #c41400;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .footer__inner {
+    padding: 64px 48px 48px;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .footer__bottom {
+    padding: 24px 48px;
+  }
+
+  .footer__brand-col {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .footer__inner {
+    padding: 48px 20px 40px;
+    gap: 40px;
+  }
+
+  .footer__links {
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .footer__bottom {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer__offices {
+    gap: 16px;
+  }
+}
