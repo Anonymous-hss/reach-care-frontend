@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Custom Studio Icon from Figma
  */

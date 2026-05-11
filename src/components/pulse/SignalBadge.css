@@ -1,0 +1,32 @@
+.signal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16px;
+  padding: 2px 7px;
+  border-radius: var(--radius-lg);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.signal-badge--critical {
+  background: #fcebeb;
+  color: #a32d2d;
+}
+
+.signal-badge--emerging {
+  background: #faeeda;
+  color: #854f0b;
+}
+
+.signal-badge--opportunity {
+  background: #e6f1fb;
+  color: #0c447c;
+}
+
+.signal-badge--update {
+  background: #f6f7f9;
+  color: #6b7280;
+}
