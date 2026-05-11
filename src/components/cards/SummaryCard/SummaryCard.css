@@ -1,0 +1,204 @@
+/* ================================================================
+   SummaryCard Component Styles
+   ================================================================ */
+
+.summary-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--transition-fast);
+}
+
+.summary-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* ── Header ── */
+.summary-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.summary-card__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.summary-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white; /* Ensure icons are white */
+}
+
+.summary-card__icon--pulse {
+  background: var(--color-bg-pulse-icon);
+}
+
+.summary-card__icon--compass {
+  background: var(--color-bg-compass-icon);
+}
+
+.summary-card__icon--studio {
+  background: var(--color-bg-studio-icon);
+}
+
+.summary-card__icon--ask {
+  background: var(--color-bg-ask-icon);
+}
+
+.summary-card__title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.summary-card__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.summary-card__link-icon {
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.summary-card__link-icon:hover {
+  color: var(--color-text-primary);
+}
+
+/* ── Divider ── */
+.summary-card__divider {
+  height: 1px;
+  background: var(--color-border-section);
+  margin-bottom: var(--space-lg);
+}
+
+/* ── List Items ── */
+.summary-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.summary-card__list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+}
+
+.summary-card__list-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.summary-card__list-dot--critical { background: var(--color-signal-critical); }
+.summary-card__list-dot--emerging { background: var(--color-signal-emerging); }
+.summary-card__list-dot--info { background: var(--color-accent-blue); }
+
+.summary-card__list-icon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.summary-card__list-text {
+  flex: 1;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.summary-card__list-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.summary-card__list-change {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  flex-shrink: 0;
+}
+
+.summary-card__list-change--up { color: var(--color-accent-green-dark); }
+.summary-card__list-change--down { color: var(--color-accent-red); }
+
+/* ── Compass Special Content ── */
+.summary-card__compass-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.summary-card__compass-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.summary-card__compass-region {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.summary-card__compass-allocation {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.summary-card__compass-progress {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.summary-card__compass-progress-bar {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-progress);
+  transition: width var(--transition-slow);
+}
+
+.summary-card__compass-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.summary-card__compass-stats span {
+  display: flex;
+  align-items: center;
+}
+
+.summary-card__compass-stats span::after {
+  content: '·';
+  margin-left: var(--space-sm);
+}
+
+.summary-card__compass-stats span:last-child::after {
+  display: none;
+}

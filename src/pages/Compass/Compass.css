@@ -1,0 +1,3 @@
+.compass-page {
+  animation: fadeIn var(--transition-normal) forwards;
+}

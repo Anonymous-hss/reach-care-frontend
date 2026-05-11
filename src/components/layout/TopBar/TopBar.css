@@ -1,0 +1,66 @@
+/* ================================================================
+   TopBar Component Styles
+   ================================================================ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+}
+
+/* ── Search ── */
+.topbar__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  min-width: 200px;
+  cursor: text;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.topbar__search:focus-within {
+  border-color: var(--color-text-muted);
+  box-shadow: 0 0 0 3px rgba(26, 26, 25, 0.05);
+}
+
+.topbar__search-icon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.topbar__search-input {
+  width: 100%;
+  background: transparent;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.topbar__search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ── Notification Bell ── */
+.topbar__notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.topbar__notification:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}

@@ -1,0 +1,16 @@
+/* ================================================================
+   PageLayout Component Styles
+   ================================================================ */
+
+.page-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.page-layout__content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: 0 var(--content-padding) var(--content-padding);
+}
