@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   FileText,
   BookMarked,
@@ -10,18 +12,42 @@ import {
 import PageLayout from './components/layout/PageLayout';
 import Home from './pages/Home';
 import Pulse from './pages/Pulse';
+import PulseActionPage from './pages/Pulse/PulseActionPage';
 import Compass from './pages/Compass';
 import Ask from './pages/Ask';
 import Studio from './pages/Studio';
 import PlaceholderPage from './pages/PlaceholderPage';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<PageLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/pulse" element={<Pulse />} />
+          <Route
+            path="/pulse/signals/:signalId/action"
+            element={<PulseActionPage pageType="take-action" />}
+          />
+          <Route
+            path="/pulse/signals/:signalId/model-impact"
+            element={<PulseActionPage pageType="model-impact" />}
+          />
+          <Route
+            path="/pulse/signals/:signalId/rerun-compass"
+            element={<PulseActionPage pageType="rerun-compass" />}
+          />
           <Route path="/compass" element={<Compass />} />
           <Route path="/ask" element={<Ask />} />
           <Route path="/studio" element={<Studio />} />

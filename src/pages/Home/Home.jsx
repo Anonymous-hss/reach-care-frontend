@@ -1,7 +1,6 @@
 import {
   Activity,
   Compass,
-  Layers,
   MessageSquare,
   FileText,
   MessageCircle,
