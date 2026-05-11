@@ -22,8 +22,10 @@ const navSections = [
     items: [
       { path: '/pulse', label: 'Pulse', icon: Activity, badge: 4 },
       { path: '/compass', label: 'Compass', icon: Compass },
-      { path: '/ask', label: 'Ask', icon: MessageSquare },
       { path: '/studio', label: 'Studio', icon: StudioIcon },
+      { path: '/ask', label: 'Ask', icon: MessageSquare },
+      { path: '/reports', label: 'Reports', icon: FileText},
+      
     ],
   },
   {
