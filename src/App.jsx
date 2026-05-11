@@ -39,6 +39,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
         <Route element={<PageLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/pulse" element={<Pulse />} />
           <Route
             path="/pulse/signals/:signalId/action"

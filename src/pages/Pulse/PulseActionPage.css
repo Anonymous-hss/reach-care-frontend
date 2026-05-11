@@ -1201,3 +1201,23 @@
     -webkit-print-color-adjust: exact;
   }
 }
+
+.chart-line--critical, .chart-point--critical {
+  stroke: #A32D2D;
+  fill: #A32D2D;
+}
+
+.chart-line--emerging, .chart-point--emerging {
+  stroke: #D97706;
+  fill: #D97706;
+}
+
+.chart-line--opportunity, .chart-point--opportunity {
+  stroke: #185FA5;
+  fill: #185FA5;
+}
+
+.chart-line--update, .chart-point--update {
+  stroke: #6B48A8;
+  fill: #6B48A8;
+}

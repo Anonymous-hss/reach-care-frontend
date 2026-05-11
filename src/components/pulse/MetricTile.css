@@ -26,3 +26,11 @@
 .metric-tile__value--critical {
   color: var(--color-signal-critical);
 }
+
+.metric-tile__value--positive {
+  color: var(--color-accent-green-dark);
+}
+
+.metric-tile__value--neutral {
+  color: var(--color-text-primary);
+}

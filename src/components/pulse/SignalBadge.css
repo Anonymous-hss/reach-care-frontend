@@ -27,6 +27,6 @@
 }
 
 .signal-badge--update {
-  background: #f6f7f9;
-  color: #6b7280;
+  background: var(--color-signal-update-bg);
+  color: var(--color-signal-update);
 }
