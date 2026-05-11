@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import {
   FileText,
   BookMarked,
@@ -10,6 +9,7 @@ import {
   Settings,
 } from 'lucide-react';
 import PageLayout from './components/layout/PageLayout';
+import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Pulse from './pages/Pulse';
 import PulseActionPage from './pages/Pulse/PulseActionPage';
@@ -34,8 +34,9 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route element={<PageLayout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Home />} />
           <Route path="/pulse" element={<Pulse />} />
           <Route
             path="/pulse/signals/:signalId/action"

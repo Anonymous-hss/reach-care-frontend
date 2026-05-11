@@ -1,0 +1,41 @@
+.landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: white;
+  text-align: center;
+}
+
+.landing__hero {
+  max-width: 600px;
+  padding: var(--space-2xl);
+}
+
+.landing__title {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-md);
+}
+
+.landing__subtitle {
+  font-size: var(--font-size-xl);
+  opacity: 0.9;
+  margin-bottom: var(--space-3xl);
+}
+
+.landing__btn {
+  display: inline-block;
+  padding: var(--space-lg) var(--space-3xl);
+  background: white;
+  color: var(--color-primary);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.landing__btn:hover {
+  transform: translateY(-2px);
+}
