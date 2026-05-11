@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -367,10 +366,265 @@ async function downloadVisualBriefPdf(signal) {
 }
 /* eslint-enable no-unused-vars */
 
-async function downloadBriefPdf(page) {
+const BRIEF_PDF_WIDTH = 558;
+const BRIEF_PDF_HEIGHT = 789;
+
+function hexToRgb(hex) {
+  const value = hex.replace('#', '');
+  return [
+    parseInt(value.slice(0, 2), 16) / 255,
+    parseInt(value.slice(2, 4), 16) / 255,
+    parseInt(value.slice(4, 6), 16) / 255,
+  ];
+}
+
+function pdfY(y, height = 0) {
+  return BRIEF_PDF_HEIGHT - y - height;
+}
+
+function colorCommand(hex, operator) {
+  return `${hexToRgb(hex).map((value) => value.toFixed(3)).join(' ')} ${operator}`;
+}
+
+function addRect(commands, x, y, width, height, fill, stroke, strokeWidth = 1) {
+  commands.push('q');
+  if (fill) commands.push(colorCommand(fill, 'rg'));
+  if (stroke) {
+    commands.push(colorCommand(stroke, 'RG'));
+    commands.push(`${strokeWidth} w`);
+  }
+  commands.push(`${x} ${pdfY(y, height)} ${width} ${height} re ${fill && stroke ? 'B' : fill ? 'f' : 'S'}`);
+  commands.push('Q');
+}
+
+function addLine(commands, x1, y1, x2, y2, color = '#e1e1e1', strokeWidth = 1) {
+  commands.push('q');
+  commands.push(colorCommand(color, 'RG'));
+  commands.push(`${strokeWidth} w`);
+  commands.push(`${x1} ${pdfY(y1)} m ${x2} ${pdfY(y2)} l S`);
+  commands.push('Q');
+}
+
+function splitPdfLines(text, maxWidth, size, bold = false) {
+  const maxChars = Math.max(8, Math.floor(maxWidth / (size * (bold ? 0.55 : 0.5))));
+  const words = normalizePdfText(text).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+
+  words.forEach((word) => {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > maxChars && line) {
+      lines.push(line);
+      line = word;
+      return;
+    }
+    line = next;
+  });
+
+  if (line) lines.push(line);
+  return lines;
+}
+
+function addText(commands, x, y, text, options = {}) {
+  const {
+    size = 8,
+    bold = false,
+    color = '#1a1a1a',
+    maxWidth = 500,
+    lineHeight = size * 1.35,
+  } = options;
+  const lines = splitPdfLines(text, maxWidth, size, bold);
+
+  lines.forEach((line, index) => {
+    commands.push('q');
+    commands.push(colorCommand(color, 'rg'));
+    commands.push('BT');
+    commands.push(`/${bold ? 'F2' : 'F1'} ${size} Tf`);
+    commands.push(`1 0 0 1 ${x} ${pdfY(y + index * lineHeight + size)} Tm`);
+    commands.push(`(${escapePdfText(line)}) Tj`);
+    commands.push('ET');
+    commands.push('Q');
+  });
+
+  return y + lines.length * lineHeight;
+}
+
+function addHeader(commands, title, rightText) {
+  addRect(commands, 24, 32, 16, 16, '#1a1a1a');
+  addText(commands, 30, 36.5, 'R', { size: 8, bold: true, color: '#ffffff', maxWidth: 10 });
+  addText(commands, 48, 37, title, { size: 8, bold: true, maxWidth: 280 });
+  addText(commands, 407, 37, rightText, { size: 8, color: '#8a8a8a', maxWidth: 130 });
+  addLine(commands, 24, 72, 534, 72, '#dfe3e8');
+}
+
+function addFooter(commands, left, right) {
+  addLine(commands, 24, 742, 534, 742, '#e1e1e1');
+  addText(commands, 24, 761, left, { size: 7, color: '#8a8a8a', maxWidth: 300 });
+  addText(commands, 458, 761, right, { size: 7, color: '#8a8a8a', maxWidth: 80 });
+}
+
+function addMetric(commands, x, y, metric) {
+  addRect(commands, x, y, 245, 44, '#f7f7f7');
+  addText(commands, x + 8, y + 10, metric.label, { size: 6, color: '#8a8a8a', maxWidth: 120 });
+  addText(commands, x + 8, y + 27, metric.value, { size: 16, bold: true, maxWidth: 90 });
+  if (metric.detail) addText(commands, x + 52, y + 31, metric.detail, { size: 8, color: '#8a8a8a', maxWidth: 60 });
+}
+
+function buildCoverCommands(signal, page) {
+  const brief = page.exportBrief;
+  const commands = [];
+  addHeader(commands, brief.brand, brief.confidential);
+  addRect(commands, 24, 96, 58, 10, '#fcebeb');
+  addText(commands, 29, 98, 'CRITICAL SIGNAL', { size: 6, bold: true, color: '#a32d2d', maxWidth: 55 });
+  addText(commands, 24, 116, `${signal.topic} - ${signal.region} - ${brief.generatedAt}`, { size: 8, color: '#888888' });
+  addText(commands, 24, 145, signal.title, { size: 14, bold: true, maxWidth: 500, lineHeight: 18 });
+  addText(commands, 24, 185, page.summary, { size: 8, color: '#333333', maxWidth: 505, lineHeight: 11.5 });
+  brief.coverMetrics.forEach((metric, index) => {
+    addMetric(commands, 24 + (index % 2) * 250, 236 + Math.floor(index / 2) * 49, metric);
+  });
+  addRect(commands, 24, 366, 510, 64, '#eaf4ff');
+  addText(commands, 36, 383, brief.decision.label, { size: 7, bold: true, color: '#00447c', maxWidth: 120 });
+  addText(commands, 36, 404, brief.decision.body, { size: 8, bold: true, color: '#00447c', maxWidth: 468, lineHeight: 11.5 });
+  addFooter(commands, brief.footer.preparedFor, `Page 1 of ${brief.totalPages}`);
+  return commands.join('\n');
+}
+
+function addBriefChart(commands, chart) {
+  const x = 110;
+  const y = 252;
+  addLine(commands, x, y + 26, x, y + 170, '#e1e1e1');
+  addLine(commands, x, y + 170, x + 368, y + 170, '#e1e1e1');
+  addLine(commands, x, y + 78, x + 368, y + 78, '#d8d8d8');
+  addText(commands, x + 10, y + 62, chart.annotation, { size: 12, bold: true, color: '#8a8a8a', maxWidth: 130 });
+  const points = [
+    [x + 36, y + 126],
+    [x + 128, y + 122],
+    [x + 220, y + 116],
+    [x + 343, y + 48],
+  ];
+  commands.push('q');
+  commands.push(colorCommand('#a32d2d', 'RG'));
+  commands.push('2.5 w');
+  commands.push(`${points[0][0]} ${pdfY(points[0][1])} m ${points.slice(1).map(([px, py]) => `${px} ${pdfY(py)} l`).join(' ')} S`);
+  commands.push('Q');
+  points.forEach(([px, py]) => addRect(commands, px - 4, py - 4, 8, 8, '#a32d2d'));
+  addText(commands, x + 333, y + 34, chart.finalLabel, { size: 10, bold: true, color: '#a32d2d', maxWidth: 40 });
+  chart.xAxis.forEach((label, index) => {
+    addText(commands, x + 20 + index * 92, y + 196, label, { size: 9, color: '#8a8a8a', maxWidth: 60 });
+  });
+}
+
+function buildSituationCommands(page) {
+  const brief = page.exportBrief;
+  const commands = [];
+  addHeader(commands, `${brief.brand} - ${brief.shortTitle}`, `Page 2 of ${brief.totalPages}`);
+  addText(commands, 24, 104, brief.situation.title, { size: 14, bold: true, maxWidth: 300 });
+  addText(commands, 24, 140, brief.situation.body, { size: 8, color: '#333333', maxWidth: 500, lineHeight: 11.5 });
+  addText(commands, 24, 214, page.chart.title.toUpperCase(), { size: 8, bold: true, color: '#8a8a8a', maxWidth: 240 });
+  addBriefChart(commands, page.chart);
+  addText(commands, 24, 505, 'Driver attribution', { size: 10, bold: true, maxWidth: 160 });
+  page.drivers.forEach((driver, index) => {
+    const y = 532 + index * 14;
+    addText(commands, 24, y, driver.label, { size: 6, bold: true, maxWidth: 160 });
+    addText(commands, 505, y, `${driver.value}%`, { size: 6, bold: true, maxWidth: 30 });
+    addRect(commands, 24, y + 10, 510, 3, '#efefef');
+    addRect(commands, 24, y + 10, 510 * (driver.value / 100), 3, driver.tone === 'critical' ? '#a32d2d' : driver.tone === 'warning' ? '#ba7517' : driver.tone === 'blue' ? '#185fa5' : '#8a8a8a');
+  });
+  addRect(commands, 24, 628, 510, 62, '#faf3e6');
+  addText(commands, 34, 646, brief.situation.noteLabel, { size: 7, bold: true, color: '#4c3715', maxWidth: 80 });
+  addText(commands, 34, 666, brief.situation.note, { size: 8, color: '#333333', maxWidth: 468, lineHeight: 11.5 });
+  addFooter(commands, brief.footer.sourceData, `Page 2 of ${brief.totalPages}`);
+  return commands.join('\n');
+}
+
+function buildOptionsCommands(page) {
+  const brief = page.exportBrief;
+  const commands = [];
+  addHeader(commands, `${brief.brand} - ${brief.shortTitle}`, `Page 3 of ${brief.totalPages}`);
+  addText(commands, 24, 104, brief.optionsTitle, { size: 14, bold: true, maxWidth: 300 });
+  addText(commands, 24, 140, brief.optionsIntro, { size: 8, color: '#333333', maxWidth: 500, lineHeight: 11.5 });
+  brief.options.forEach((option, index) => {
+    const y = 198 + index * 82;
+    addRect(commands, 24, y, 510, 68, option.recommended ? '#eaf4ff' : '#f7f7f7');
+    addRect(commands, 24, y, 2, 68, option.recommended ? '#185fa5' : '#2cbb88');
+    addRect(commands, 34, y + 14, option.recommended ? 92 : 48, 11, option.recommended ? '#185fa5' : '#e8e8e8');
+    addText(commands, 39, y + 17, option.label.toUpperCase(), { size: 6, bold: true, color: option.recommended ? '#ffffff' : '#555555', maxWidth: 90 });
+    addText(commands, option.recommended ? 134 : 88, y + 16, option.title, { size: 9, bold: true, maxWidth: 270 });
+    addText(commands, 470, y + 15, option.cost, { size: 10, bold: true, maxWidth: 60 });
+    addText(commands, 34, y + 38, option.body, { size: 8, color: '#333333', maxWidth: 445, lineHeight: 11 });
+    addText(commands, 34, y + 59, option.meta.join('     '), { size: 7, bold: true, color: '#8a8a8a', maxWidth: 350 });
+  });
+  addRect(commands, 24, 454, 510, 50, '#eaf4ff');
+  addText(commands, 36, 474, brief.optionsNote, { size: 8, bold: true, color: '#00447c', maxWidth: 468, lineHeight: 11.5 });
+  addFooter(commands, brief.footer.projections, `Page 3 of ${brief.totalPages}`);
+  return commands.join('\n');
+}
+
+function buildEvidenceCommands(page) {
+  const brief = page.exportBrief;
+  const commands = [];
+  addHeader(commands, `${brief.brand} - ${brief.shortTitle}`, `Page 4 of ${brief.totalPages}`);
+  addText(commands, 24, 104, brief.evidenceTitle, { size: 14, bold: true, maxWidth: 300 });
+  addText(commands, 24, 140, brief.evidenceIntro, { size: 8, color: '#333333', maxWidth: 500, lineHeight: 11.5 });
+  brief.evidence.forEach((item, index) => {
+    const y = 192 + index * 32;
+    addRect(commands, 24, y + 4, 22, 10, '#e1f5ee');
+    addText(commands, 28, y + 6, item.score, { size: 6, bold: true, color: '#047857', maxWidth: 20 });
+    addText(commands, 66, y, item.title, { size: 7.5, bold: true, maxWidth: 360 });
+    addText(commands, 66, y + 13, item.meta, { size: 7, color: '#8a8a8a', maxWidth: 360 });
+    addLine(commands, 24, y + 27, 534, y + 27, '#d7d7d7', 0.5);
+  });
+  addText(commands, 24, 460, brief.methodologyTitle, { size: 14, bold: true, maxWidth: 250 });
+  addText(commands, 24, 500, brief.methodology, { size: 8, color: '#333333', maxWidth: 500, lineHeight: 11.5 });
+  addFooter(commands, brief.footer.generatedBy, brief.footer.url);
+  return commands.join('\n');
+}
+
+function buildStyledBriefPdfDocument(signal, page) {
+  const streams = [
+    buildCoverCommands(signal, page),
+    buildSituationCommands(page),
+    buildOptionsCommands(page),
+    buildEvidenceCommands(page),
+  ];
+  const objects = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [6 0 R 8 0 R 10 0 R 12 0 R] /Count 4 >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>',
+  ];
+
+  streams.forEach((stream, index) => {
+    const contentObjectNumber = 5 + index * 2;
+    objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+    objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${BRIEF_PDF_WIDTH} ${BRIEF_PDF_HEIGHT}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentObjectNumber} 0 R >>`);
+  });
+
+  let pdf = '%PDF-1.4\n';
+  const offsets = [0];
+
+  objects.forEach((object, index) => {
+    offsets.push(pdf.length);
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+  });
+
+  const xrefPosition = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach((offset) => {
+    pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+  });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefPosition}\n%%EOF`;
+
+  return pdf;
+}
+
+async function downloadBriefPdf(signal, page) {
   if (!page.exportBrief) return;
 
-  window.print();
+  downloadBlob(
+    new Blob([buildStyledBriefPdfDocument(signal, page)], { type: 'application/pdf' }),
+    getBriefPdfFileName(signal),
+  );
 }
 
 function ActionButton({ children, tone = 'secondary', icon: Icon, onClick }) {
@@ -533,7 +787,8 @@ function TakeActionPage({ signal, page }) {
   const navigate = useNavigate();
   const exportBriefPath = `/pulse/signals/${signal.id}/brief`;
   const handleExportBrief = () => {
-    navigate(exportBriefPath, { state: { printBrief: true } });
+    downloadBriefPdf(signal, page);
+    navigate(exportBriefPath);
   };
 
   return (
@@ -781,13 +1036,6 @@ function BriefEvidencePage({ brief }) {
 
 function ExportBriefPage({ signal, page }) {
   const brief = page.exportBrief;
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state?.printBrief) {
-      window.setTimeout(() => window.print(), 150);
-    }
-  }, [location.state]);
 
   if (!brief) {
     return <Navigate to={`/pulse/signals/${signal.id}/action`} replace />;
@@ -813,7 +1061,7 @@ function ExportBriefPage({ signal, page }) {
         <div className="pulse-detail-hero__actions">
           <ActionButton icon={Pin}>Pin signal</ActionButton>
           <ActionButton icon={Share2}>Share</ActionButton>
-          <ActionButton tone="primary" icon={Download} onClick={() => downloadBriefPdf(page)}>Export brief</ActionButton>
+          <ActionButton tone="primary" icon={Download} onClick={() => downloadBriefPdf(signal, page)}>Export brief</ActionButton>
         </div>
       </section>
 
